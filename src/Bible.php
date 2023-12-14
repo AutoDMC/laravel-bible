@@ -121,7 +121,7 @@ class Bible
         $this->response = $this->client->{strtolower($method)}(
             $this->baseUrl . $relativeUrl,
             [RequestOptions::QUERY => $query
-            ]        
+            ]
        );
         return $this;
     }
@@ -137,7 +137,7 @@ class Bible
 
     /**
      * Get all available bibles
-     * 
+     *
      * @return array
      * @throws isNullException
      */
@@ -149,15 +149,15 @@ class Bible
 
     /**
      * Get a particular bible
-     * 
+     *
      * @param string $version
      * @return array
-     * 
+     *
      */
     public function bible($version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
@@ -167,12 +167,12 @@ class Bible
     /**
      * @param string $version
      * @return array
-     * 
+     *
      */
     public function books($version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
@@ -181,42 +181,42 @@ class Bible
 
     /**
      * Get a book of the bible in any version or language.
-     * 
+     *
      * @param string $version
      * @param string $book
      * @return array
-     * 
+     *
      */
     public function book($book = null, $version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
         if ($book == null) {
-            $book = request()->book ?? 'GEN';
+            $book = 'GEN';
         }
         return $this->setHttpResponse('/bibles/' . $bible_id . '/books/' . $book, 'GET')->getResponse();
     }
 
     /**
      * Get the chapters of any book of the bible in any version or language.
-     * 
+     *
      * @param string $version
      * @param string $book
      * @return array
-     * 
+     *
      */
     public function chapters($book = null, $version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
         if ($book == null) {
-            $book = request()->book ?? 'GEN';
+            $book = 'GEN';
         }
 
         return $this->setHttpResponse('/bibles/' . $bible_id . '/books/' . $book . '/chapters', 'GET')->getResponse();
@@ -224,26 +224,26 @@ class Bible
 
     /**
      * Get a chapter of the bible from any book in any version or language.
-     * 
+     *
      * @param string $version
      * @param string $book
      * @param integer $chapter
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function chapter($chapter = null, $book = null, $version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
         if ($chapter == null)
-            $chapter = request()->chapter ?? 1;
+            $chapter = 1;
 
         if ($book == null)
-            $book = request()->book ?? 'GEN';
+            $book = 'GEN';
 
         $chapter = $book . '.' . $chapter;
 
@@ -252,30 +252,30 @@ class Bible
 
     /**
      * Get a verse of the bible from any chapter in any book of any version or language.
-     * 
+     *
      * @param string|null $bible_id
      * @param string|null  $book
      * @param integer|null  $chapter
      * @param integer|null  $verse
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function verse($verse = null, $chapter = null, $book = null, $version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
         if ($chapter == null)
-            $chapter = request()->chapter ?? 1;
+            $chapter = 1;
 
         if ($verse == null)
-            $verse = request()->verse ?? 1;
+            $verse = 1;
 
         if ($book == null)
-            $book = request()->book ?? 'GEN';
+            $book = 'GEN';
 
         $verse = $book . '.' . $chapter . '.' . $verse;
 
@@ -284,26 +284,26 @@ class Bible
 
     /**
      * Get the verses from a chapter of the bible from any book in any version or language.
-     * 
+     *
      * @param string $version
      * @param string $book
      * @param integer $chapter
-     * 
+     *
      * @return array
-     * 
+     *
      */
     public function verses($chapter = null, $book = null, $version = null): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
         if ($chapter == null)
-            $chapter = request()->chapter ?? 1;
+            $chapter = 1;
 
         if ($book == null)
-            $book = request()->book ?? 'GEN';
+            $book = 'GEN';
 
         $chapter = $book . '.' . $chapter;
 
@@ -312,27 +312,27 @@ class Bible
 
     /**
      * Get a passage from the bible.
-     * 
+     *
      * @param string $version
      * @param string $passages
      * @return array
-     * 
+     *
      */
     public function passages($passages = null, $version = null, $type = 'json'): array
     {
         if (!$version)
-            $bible_id = $this->setVersion(request()->version) ?? $this->setVersion();
+            $bible_id = $this->setVersion();
         else
             $bible_id = $this->setVersion($version);
 
         if ($passages == null) {
-            $passages = request()->passages ?? 'GEN.1';
+            $passages = 'GEN.1';
         }
         return $this->setHttpResponse('/bibles/' . $bible_id . '/passages/' . $passages, 'GET', ['content-type' => $type])->getResponse();
     }
 
     /**
-     * 
+     *
      * Searches will match all verses with the list of keywords provided in the query string.
      * Order of the keywords does not matter. However all keywords must be
      * present in a verse for it to be considered a match.
@@ -345,15 +345,15 @@ class Bible
      *  'limit' =      Integer limit for how many matching results to return. Default is 10.
      *  'offset' =     Offset for search results. Used to paginate results
      *  'sort' =       Sort order of results. Supported values are relevance (default), canonical and reverse-canonical
-     *  'range' =      One or more, comma seperated, passage ids (book, chapter, verse) which the search will be limited to. 
+     *  'range' =      One or more, comma seperated, passage ids (book, chapter, verse) which the search will be limited to.
      *                  (i.e. gen.1,gen.5 or gen-num or gen.1.1-gen.3.5)
-     *  'fuzziness' =  Sets the fuzziness of a search to account for misspellings. Values can be 0, 1, 2, or AUTO. 
+     *  'fuzziness' =  Sets the fuzziness of a search to account for misspellings. Values can be 0, 1, 2, or AUTO.
      *                  Defaults to AUTO which varies depending on the Available values
-                
+
      * @param array $data
      * @param string $version
      * @return array
-     * 
+     *
      */
     public function search(array $data = null, $version = null): array
     {
