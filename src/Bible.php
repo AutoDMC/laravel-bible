@@ -332,6 +332,27 @@ class Bible
     }
 
     /**
+     * Get a list of sections from the bible.
+     *
+     * @param string $version
+     * @param string $book
+     * @return array
+     *
+     */
+    public function sections($book = null, $version = null, $type = 'json'): array
+    {
+        if (!$version)
+            $bible_id = $this->setVersion();
+        else
+            $bible_id = $this->setVersion($version);
+
+        if ($book == null) {
+            $book = 'GEN';
+        }
+        return $this->setHttpResponse('/bibles/' . $bible_id . '/books/' . $book . '/sections', 'GET', ['content-type' => $type])->getResponse();
+    }
+
+    /**
      *
      * Searches will match all verses with the list of keywords provided in the query string.
      * Order of the keywords does not matter. However all keywords must be
